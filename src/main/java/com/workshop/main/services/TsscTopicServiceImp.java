@@ -1,6 +1,8 @@
 package com.workshop.main.services;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class TsscTopicServiceImp implements TsscTopicService{
 	@Override
 	public TsscTopic setTopic(TsscTopic t, String name, String description) {
 
-		if (t != null && name != null && !name.equals("") &&  description != null && !description.equals("")) {
+		if (t != null && name != null && !name.equals("") && repo.existsById(t.getId()) && description != null && !description.equals("")) {
 			t.setName(name);
 			t.setDescription(description);
 			repo.save(t);
@@ -49,16 +51,27 @@ public class TsscTopicServiceImp implements TsscTopicService{
 
 	@Override
 	public TsscTopic findTopic(Long id) {
-		try {
-			TsscTopic encontrado = repo.findById(id).get();
+		
+		TsscTopic encontrado = repo.findById(id).get();
+		System.out.println(encontrado != null);
+		
+		if(encontrado != null) {
+			
 			return encontrado;
-
-		}
-
-		catch (Exception a) {
+			
+		} else {
+			
 			return null;
+			
 		}
 
 	}
+
+	@Override
+	public boolean existById(long id) {
+		return repo.existsById(id);
+	}
+
+
 
 }

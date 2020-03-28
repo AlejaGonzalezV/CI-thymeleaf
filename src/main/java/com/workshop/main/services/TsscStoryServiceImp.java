@@ -20,12 +20,15 @@ public class TsscStoryServiceImp implements TsscStoryService{
 	private TsscStoryRepository story;
 	@Autowired
 	private TsscGameRepository game;
+	@Autowired
+	private TsscGameService gameServ;
 
 	@Autowired
-	public TsscStoryServiceImp(TsscStoryRepository story, TsscGameRepository game) {
+	public TsscStoryServiceImp(TsscStoryRepository story, TsscGameRepository game, TsscGameService gameServ) {
 		super();
 		this.story = story;
 		this.game = game;
+		this.gameServ = gameServ;
 	}
 
 
@@ -34,10 +37,10 @@ public class TsscStoryServiceImp implements TsscStoryService{
 
 		if (s != null && s.getBusinessValue().compareTo(BigDecimal.valueOf(0)) == 1
 				&& s.getInitialSprint().compareTo(BigDecimal.valueOf(0)) == 1
-				&& s.getPriority().compareTo(BigDecimal.valueOf(0)) == 1 && game.findById(id).isPresent()) {
-			TsscGame g = game.findById(id).get();
+				&& s.getPriority().compareTo(BigDecimal.valueOf(0)) == 1 && gameServ.existById(id)) {
+			TsscGame g = gameServ.findGame(id);
 
-			g.addTsscStory(s);
+			gameServ.addStory(s, g);
 			story.save(s);
 			return s;
 		}
@@ -66,6 +69,13 @@ public class TsscStoryServiceImp implements TsscStoryService{
 			 return story.findById(id).get();
 		}
 		return null;
+	}
+
+
+	@Override
+	public boolean existById(long id) {
+		
+		return story.existsById(id);
 	}
 
 }

@@ -16,60 +16,60 @@ class TsscTopicTest {
 	private TsscTopicServiceImp topicServiceImp;
 	
 	@Test
-	void AgregarUnTemaGrupoMenora1() {
+	void TestAddTopicGroupMenor1() {
 	
-		TsscTopic tsstopic = new TsscTopic();
+		TsscTopic top = new TsscTopic();
 	
-		tsstopic.setDefaultGroups(0);
-		tsstopic.setDefaultSprints(4);
-		topicServiceImp.addTopic(tsstopic);
-		Long id = tsstopic.getId();
+		top.setDefaultGroups(0);
+		top.setDefaultSprints(4);
+		topicServiceImp.addTopic(top);
+		Long id = top.getId();
 		assertNull(topicServiceImp.findTopic(id));
 
 	}
 	
 	@Test
-	void AgregarUnTemaSprintsMenora1() {
+	void TestAddTopicSprintsMenor1() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(0);
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(0);
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
+		Long id = top.getId();
 		assertNull(topicServiceImp.findTopic(id));
 
 	}
 	@Test
-	void AgregarUnTemaSprintsyGrupoMayora0() {
+	void TestAddTopicSprintsGroupMayor0() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("HEY BA");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("HEY BA");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
+		Long id = top.getId();
 		assertNotNull(topicServiceImp.findTopic(id));
 
 	}
 	
 	
 	@Test
-	void editarunTema0() {
+	void TestEditTopic0() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("El mejor tema");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("El mejor tema");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
-	    TsscTopic encontrado=topicServiceImp.findTopic(id);
-	    topicServiceImp.setTopic(encontrado, "Miguel", "Un tema");
+		Long id = top.getId();
+	    TsscTopic find=topicServiceImp.findTopic(id);
+	    topicServiceImp.setTopic(find, "Miguel", "Un tema");
 	    
-	    assertEquals("Miguel", encontrado.getName());
-	    assertEquals("Un tema", encontrado.getDescription());
+	    assertEquals("Miguel", find.getName());
+	    assertEquals("Un tema", find.getDescription());
 	  
 
 	}
@@ -77,67 +77,67 @@ class TsscTopicTest {
 	
 	
 	@Test
-	void editarunTemaNameNull() {
+	void TestEditTopicNullName() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("El mejor tema");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("El mejor tema");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
-	    TsscTopic encontrado=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(encontrado, null, "Un tema"));
+		Long id = top.getId();
+	    TsscTopic find=topicServiceImp.findTopic(id);
+	   assertNull(topicServiceImp.setTopic(find, null, "Un tema"));
 	      
 
 	}
 	
 	
 	@Test
-	void editarunTemaNameVacio() {
+	void TestEditTopicNoName() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("El mejor tema");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("El mejor tema");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
-	    TsscTopic encontrado=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(encontrado, "", "Un tema"));
+		Long id = top.getId();
+	    TsscTopic find=topicServiceImp.findTopic(id);
+	   assertNull(topicServiceImp.setTopic(find, "", "Un tema"));
 	      
 
 	}
 	
 	
 	@Test
-	void editarunTemaDescripcionVacio() {
+	void TestEditTopicNoDesc() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("El mejor tema");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("El mejor tema");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
-	    TsscTopic encontrado=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(encontrado, "Miguel", ""));
+		Long id = top.getId();
+	    TsscTopic find=topicServiceImp.findTopic(id);
+	   assertNull(topicServiceImp.setTopic(find, "Miguel", ""));
 	      
 
 	}
 	
 	@Test
-	void editarunTemaDescripcionNull() {
+	void TestEditTopicNullDesc() {
 	
-		TsscTopic tsstopic = new TsscTopic();
-		tsstopic.setDefaultGroups(4);
-		tsstopic.setDefaultSprints(4);
-		tsstopic.setDescription("El mejor tema");
-		topicServiceImp.addTopic(tsstopic);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(4);
+		top.setDefaultSprints(4);
+		top.setDescription("El mejor tema");
+		topicServiceImp.addTopic(top);
 
-		Long id = tsstopic.getId();
-	    TsscTopic encontrado=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(encontrado, "Miguel", null));
+		Long id = top.getId();
+	    TsscTopic find=topicServiceImp.findTopic(id);
+	   assertNull(topicServiceImp.setTopic(find, "Miguel", null));
 	      
 
 	}

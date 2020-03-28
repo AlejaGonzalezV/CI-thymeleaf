@@ -30,34 +30,34 @@ class TsscGameTest {
 	}
 
 	@Test
-	void testAnadirGame2GrupoMenorAUno() {
+	void testAddGame2GroupMenor1() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(0);
-		gameOne.setNSprints(1);
+		TsscGame g = new TsscGame();
+		g.setNGroups(0);
+		g.setNSprints(4);
 
-		assertNull(storyImp.addGame2(gameOne, 2));
-
-	}
-	
-	@Test
-	void testAnadirGame2SprintsMenorAUno() {
-
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(0);
-
-		assertNull(storyImp.addGame2(gameOne, 2));
+		assertNull(storyImp.addGame2(g, 2));
 
 	}
 	
 	@Test
-	void testAnadirGameConTemaJuego2() {
+	void testAddGame2SprintsMenor1() {
 
-		TsscGame gameOne = new TsscGame();
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(0);
+
+		assertNull(storyImp.addGame2(g, 2));
+
+	}
+	
+	@Test
+	void testAddGameTopic2() {
+
+		TsscGame g = new TsscGame();
 		// duda
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
+		g.setNGroups(1);
+		g.setNSprints(1);
 
 		TsscTopic tema = new TsscTopic();
 		tema.setDefaultGroups(1);
@@ -65,149 +65,138 @@ class TsscGameTest {
 
 		topicServiceImp.addTopic(tema);
 
-		assertNotNull(storyImp.addGame2(gameOne, tema.getId()));
+		assertNotNull(storyImp.addGame2(g, tema.getId()));
 
 	}
 	
 	
 	@Test
-	void testAnadirGameGrupoMenorAUno() {
+	void testAddGameGroupMenor1() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(0);
-		gameOne.setNSprints(1);
+		TsscGame g = new TsscGame();
+		g.setNGroups(0);
+		g.setNSprints(1);
 
-		assertNull(storyImp.addGameT(gameOne, 2));
+		assertNull(storyImp.addGameT(g, 2));
 
 	}
 
 	@Test
-	void testAnadirGameSprintsMenorAUno() {
+	void testAddGameSprintsMenor1() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(0);
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(0);
 
-		assertNull(storyImp.addGameT(gameOne, 2));
+		assertNull(storyImp.addGameT(g, 2));
 
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Test
-	void testAnadirGameConTema() {
+	void testAddGameT() {
 
-		TsscGame gameOne = new TsscGame();
+		TsscGame g = new TsscGame();
 		// duda
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
+		g.setNGroups(1);
+		g.setNSprints(1);
 
-		TsscTopic tema = new TsscTopic();
-		tema.setDefaultGroups(1);
-		tema.setDefaultSprints(1);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(1);
+		top.setDefaultSprints(1);
 
-		topicServiceImp.addTopic(tema);
+		topicServiceImp.addTopic(top);
 
-		assertNotNull(storyImp.addGameT(gameOne, tema.getId()));
+		assertNotNull(storyImp.addGameT(g, top.getId()));
 
 	}
 
 	@Test
-	void testAnadirGameConTemaFalla() {
+	void testAddGameTFail() {
 
-		TsscGame gameOne = new TsscGame();
+		TsscGame g = new TsscGame();
 		// duda
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
+		g.setNGroups(1);
+		g.setNSprints(1);
 
-		TsscTopic tema = new TsscTopic();
-		tema.setDefaultGroups(0);
-		tema.setDefaultSprints(1);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(0);
+		top.setDefaultSprints(1);
 
-		topicServiceImp.addTopic(tema);
+		topicServiceImp.addTopic(top);
 
-		assertNotNull(storyImp.addGameT(gameOne, tema.getId()));
+		assertNotNull(storyImp.addGameT(g, top.getId()));
 
 	}
 
 	@Test
-	void testAnadirGameSinTema() {
+	void testAddGame() {
 
-		TsscGame gameOne = new TsscGame();
+		TsscGame g = new TsscGame();
 		// duda
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
+		g.setNGroups(1);
+		g.setNSprints(1);
 
-		assertNotNull(storyImp.addGame(gameOne));
+		assertNotNull(storyImp.addGame(g));
 
 	}
 
 	
 	@Test
-	void testActualizarGameGrupoMenorA1() {
+	void testSetGameGroupMenor1() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
-		gameOne.setName("Cambiando Nombre");
-		storyImp.addGame(gameOne);
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		g.setName("Cambiando Nombre");
+		storyImp.addGame(g);
 
-		assertNull(storyImp.setGame(gameOne, 0, "Historia"));
+		assertNull(storyImp.setGame(g, 0, "Historia"));
 	
 
 	}
 	
 	@Test
-	void testActualizarGameNombreVacio() {
+	void testSetGameNoName() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
-		gameOne.setName("Cambiando Nombre");
-		storyImp.addGame(gameOne);
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		g.setName("Cambiando Nombre");
+		storyImp.addGame(g);
 
-		assertNull(storyImp.setGame(gameOne, 2, ""));
+		assertNull(storyImp.setGame(g, 2, ""));
 	
 
 	}
 	
 	@Test
-	void testActualizarGameNombreNull() {
+	void testSetGameNullName() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
-		gameOne.setName("Cambiando Nombre");
-		storyImp.addGame(gameOne);
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		g.setName("Cambiando Nombre");
+		storyImp.addGame(g);
 
-		assertNull(storyImp.setGame(gameOne, 2, null));
+		assertNull(storyImp.setGame(g, 2, null));
 	
 
 	}
 	
-	
-	
-	
+
 	@Test
-	void testActualizarGame() {
+	void testSetGame() {
 
-		TsscGame gameOne = new TsscGame();
-		gameOne.setNGroups(1);
-		gameOne.setNSprints(1);
-		gameOne.setName("Cambiando Nombre");
-		storyImp.addGame(gameOne);
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		g.setName("Cambiando Nombre");
+		storyImp.addGame(g);
 
-		storyImp.setGame(gameOne, 2, "Historia");
+		storyImp.setGame(g, 2, "Historia");
 
-		assertEquals("Historia", storyImp.findGame(gameOne.getId()).getName());
-		assertEquals(2, gameOne.getNGroups());
+		assertEquals("Historia", storyImp.findGame(g.getId()).getName());
+		assertEquals(2, g.getNGroups());
 
 	}
 }

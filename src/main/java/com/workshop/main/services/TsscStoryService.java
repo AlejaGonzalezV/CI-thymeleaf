@@ -7,5 +7,6 @@ public interface TsscStoryService {
 	public TsscStory addStory(TsscStory story, long id);
 	public TsscStory setStory(TsscStory story, String priority, String description);
 	public TsscStory findStory(Long id);
+	public boolean existById(long id);
 
 }

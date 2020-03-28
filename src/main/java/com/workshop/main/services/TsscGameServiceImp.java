@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workshop.main.model.TsscGame;
+import com.workshop.main.model.TsscStory;
 import com.workshop.main.model.TsscTopic;
 import com.workshop.main.repositories.TsscGameRepository;
 
@@ -28,6 +29,9 @@ public class TsscGameServiceImp implements TsscGameService {
 	public TsscGame addGameT(TsscGame g, long ids) {
 		if (g.getNGroups() > 0 && g.getNSprints() > 0) {
 			TsscTopic find = repo.findTopic(ids);
+			System.out.println("----------------------------------");
+			System.out.println(find != null);
+			System.out.println("----------------------------------");
 			if (find != null) {
 
 				g.setTsscTopic(find);
@@ -64,7 +68,7 @@ public class TsscGameServiceImp implements TsscGameService {
 	@Override
 	public TsscGame setGame(TsscGame g, int groups, String name) {
 
-		if (g != null && groups > 0 && name != null&&!name.equals("")) {
+		if (g != null && groups > 0 && name != null&&!name.equals("") && game.existsById(g.getId())) {
 			g.setName(name);
 			g.setNGroups(groups);
 			game.save(g);
@@ -95,10 +99,24 @@ public class TsscGameServiceImp implements TsscGameService {
 	}
 
 	@Override
-	public TsscGame findGame(Long id) {
+	public TsscGame findGame(long id) {
 		if (game.findById(id).get() != null){
 			 return game.findById(id).get();
 		}
 		return null;
 	}
+
+	@Override
+	public boolean existById(long id) {
+		
+		return game.existsById(id);
+	}
+
+	@Override
+	public TsscStory addStory(TsscStory st, TsscGame g) {
+		
+		return g.addTsscStory(st);
+	}
+	
+	
 }
