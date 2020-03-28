@@ -81,7 +81,7 @@ public class TsscGame implements Serializable {
 	private List<TsscSprint> tsscSprints;
 
 	// bi-directional many-to-one association to TsscStory
-	@OneToMany(mappedBy = "tsscGame")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tsscGame")
 	@JsonIgnore
 	private List<TsscStory> tsscStories;
 	

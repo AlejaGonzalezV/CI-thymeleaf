@@ -29,9 +29,6 @@ public class TsscGameServiceImp implements TsscGameService {
 	public TsscGame addGameT(TsscGame g, long ids) {
 		if (g.getNGroups() > 0 && g.getNSprints() > 0) {
 			TsscTopic find = repo.findTopic(ids);
-			System.out.println("----------------------------------");
-			System.out.println(find != null);
-			System.out.println("----------------------------------");
 			if (find != null) {
 
 				g.setTsscTopic(find);
@@ -41,13 +38,17 @@ public class TsscGameServiceImp implements TsscGameService {
 
 			else {
 
-				game.save(g);
-				return g;
+				return null;
+				
 			}
 
+		} else {
+			
+			return null;
+			
 		}
 
-		return null;
+		
 	}
 
 	
@@ -100,10 +101,15 @@ public class TsscGameServiceImp implements TsscGameService {
 
 	@Override
 	public TsscGame findGame(long id) {
-		if (game.findById(id).get() != null){
-			 return game.findById(id).get();
+		if(game.existsById(id)) {
+			
+			return game.findById(id).get();
+			
+		} else {
+			
+			return null;
+			
 		}
-		return null;
 	}
 
 	@Override

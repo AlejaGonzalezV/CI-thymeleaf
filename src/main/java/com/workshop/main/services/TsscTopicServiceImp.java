@@ -52,12 +52,10 @@ public class TsscTopicServiceImp implements TsscTopicService{
 	@Override
 	public TsscTopic findTopic(Long id) {
 		
-		TsscTopic encontrado = repo.findById(id).get();
-		System.out.println(encontrado != null);
 		
-		if(encontrado != null) {
+		if(repo.existsById(id)) {
 			
-			return encontrado;
+			return repo.findById(id).get();
 			
 		} else {
 			

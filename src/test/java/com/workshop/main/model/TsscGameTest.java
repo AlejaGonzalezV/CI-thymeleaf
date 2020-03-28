@@ -17,7 +17,7 @@ class TsscGameTest {
 	@Autowired
 	private TsscTopicServiceImp topicServiceImp;
 	@Autowired
-	private TsscGameServiceImp storyImp;
+	private TsscGameServiceImp gameServ;
 
 	@BeforeAll
 	public static void beforeTest() {
@@ -30,32 +30,9 @@ class TsscGameTest {
 	}
 
 	@Test
-	void testAddGame2GroupMenor1() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(0);
-		g.setNSprints(4);
-
-		assertNull(storyImp.addGame2(g, 2));
-
-	}
-	
-	@Test
-	void testAddGame2SprintsMenor1() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(0);
-
-		assertNull(storyImp.addGame2(g, 2));
-
-	}
-	
-	@Test
 	void testAddGameTopic2() {
 
 		TsscGame g = new TsscGame();
-		// duda
 		g.setNGroups(1);
 		g.setNSprints(1);
 
@@ -64,39 +41,35 @@ class TsscGameTest {
 		tema.setDefaultSprints(1);
 
 		topicServiceImp.addTopic(tema);
+		gameServ.addGame2(g, tema.getId());
 
-		assertNotNull(storyImp.addGame2(g, tema.getId()));
+		assertTrue(gameServ.existById(g.getId()));
 
 	}
 	
-	
 	@Test
-	void testAddGameGroupMenor1() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(0);
-		g.setNSprints(1);
-
-		assertNull(storyImp.addGameT(g, 2));
-
-	}
-
-	@Test
-	void testAddGameSprintsMenor1() {
+	void testAddGameTopic2Fail() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
-		g.setNSprints(0);
+		g.setNSprints(1);
 
-		assertNull(storyImp.addGameT(g, 2));
+		TsscTopic tema = new TsscTopic();
+		tema.setDefaultGroups(1);
+		tema.setDefaultSprints(0);
+
+		topicServiceImp.addTopic(tema);
+		gameServ.addGame2(g, tema.getId());
+
+		assertFalse(gameServ.existById(g.getId()));
 
 	}
+
 
 	@Test
 	void testAddGameT() {
 
 		TsscGame g = new TsscGame();
-		// duda
 		g.setNGroups(1);
 		g.setNSprints(1);
 
@@ -106,7 +79,7 @@ class TsscGameTest {
 
 		topicServiceImp.addTopic(top);
 
-		assertNotNull(storyImp.addGameT(g, top.getId()));
+		assertNotNull(gameServ.addGameT(g, top.getId()));
 
 	}
 
@@ -114,7 +87,6 @@ class TsscGameTest {
 	void testAddGameTFail() {
 
 		TsscGame g = new TsscGame();
-		// duda
 		g.setNGroups(1);
 		g.setNSprints(1);
 
@@ -124,7 +96,7 @@ class TsscGameTest {
 
 		topicServiceImp.addTopic(top);
 
-		assertNotNull(storyImp.addGameT(g, top.getId()));
+		assertNull(gameServ.addGameT(g, top.getId()));
 
 	}
 
@@ -132,58 +104,29 @@ class TsscGameTest {
 	void testAddGame() {
 
 		TsscGame g = new TsscGame();
-		// duda
 		g.setNGroups(1);
 		g.setNSprints(1);
 
-		assertNotNull(storyImp.addGame(g));
+		assertNotNull(gameServ.addGame(g));
 
 	}
 
-	
 	@Test
-	void testSetGameGroupMenor1() {
+	void testSetGameFail() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
 		g.setName("Cambiando Nombre");
-		storyImp.addGame(g);
+		gameServ.addGame(g);
 
-		assertNull(storyImp.setGame(g, 0, "Historia"));
-	
+		gameServ.setGame(g, 2, "");
 
-	}
-	
-	@Test
-	void testSetGameNoName() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		g.setName("Cambiando Nombre");
-		storyImp.addGame(g);
-
-		assertNull(storyImp.setGame(g, 2, ""));
-	
+		assertNotEquals(gameServ.findGame(g.getId()).getName(), "");
+		assertNotEquals(g.getNGroups(), 2);
 
 	}
 	
-	@Test
-	void testSetGameNullName() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		g.setName("Cambiando Nombre");
-		storyImp.addGame(g);
-
-		assertNull(storyImp.setGame(g, 2, null));
-	
-
-	}
-	
-
 	@Test
 	void testSetGame() {
 
@@ -191,12 +134,12 @@ class TsscGameTest {
 		g.setNGroups(1);
 		g.setNSprints(1);
 		g.setName("Cambiando Nombre");
-		storyImp.addGame(g);
+		gameServ.addGame(g);
 
-		storyImp.setGame(g, 2, "Historia");
+		gameServ.setGame(g, 2, "Historia");
 
-		assertEquals("Historia", storyImp.findGame(g.getId()).getName());
-		assertEquals(2, g.getNGroups());
+		assertEquals(gameServ.findGame(g.getId()).getName(), "Historia");
+		assertEquals(g.getNGroups(), 2);
 
 	}
 }

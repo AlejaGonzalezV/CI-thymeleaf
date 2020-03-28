@@ -21,175 +21,45 @@ class TsscStoryTest {
 	private TsscGameServiceImp gameImp;
 
 	@Test
-	void TestSaveStoryVNMenor0() {
+	void testSaveStoryAsociadaJuego() {
+		
+		TsscStory st = new TsscStory();
+		st.setBusinessValue(BigDecimal.valueOf(1));
+		st.setInitialSprint(BigDecimal.valueOf(1));
+		st.setPriority(BigDecimal.valueOf(1));
+
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		gameImp.addGame(g);
+		StoryServiceImp.addStory(st, g.getId());
+
+		assertNotNull(StoryServiceImp.findStory(st.getId()));
+		assertTrue(StoryServiceImp.existById(st.getId()));
+
+	}
+	
+	@Test
+	void testSaveStoryAsociadaJuegoFail() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(0));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-
-		assertNull(StoryServiceImp.addStory(st, g.getId()));
-
-	}
-
-	@Test
-	void TestSaveStorySprintInicialMenor0() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
 		st.setInitialSprint(BigDecimal.valueOf(0));
-		st.setPriority(BigDecimal.valueOf(1));
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-
-		assertNull(StoryServiceImp.addStory(st, g.getId()));
-
-	}
-
-	@Test
-	void TestSaveStoryPriorityMenor0() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
 		st.setPriority(BigDecimal.valueOf(0));
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-
-		assertNull(StoryServiceImp.addStory(st, g.getId()));
-
-	}
-
-	@Test
-	void TestSaveStoryAsociadaJuego() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-
-		assertNotNull(StoryServiceImp.addStory(st, g.getId()));
-
-	}
-	
-
-	
-	
-	@Test
-	void TestSaveStoryNoAsociadaJuego() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(0);
 		g.setNSprints(1);
 		gameImp.addGame(g);
 		
-
-		assertNull(StoryServiceImp.addStory(st, g.getId()));
-
-	}
-	
-	
-	@Test
-	void TestSetStoryAltDescriptionNull() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-		
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
 		StoryServiceImp.addStory(st, g.getId());
-
-		assertNull(StoryServiceImp.setStory(st, null, "SegundaPri"));
-			
+		assertFalse(StoryServiceImp.existById(st.getId()));
 
 	}
+
 	
 	@Test
-	void TestSetStoryAltDescription() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-		
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-		StoryServiceImp.addStory(st, g.getId());
-		
-		assertNull(StoryServiceImp.setStory(st, "", "SegundaPri"));
-			
-
-	}
-	
-	@Test
-	void TestSetStoryNoDescription() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-		
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-		StoryServiceImp.addStory(st, g.getId());
-		
-
-		assertNull(StoryServiceImp.setStory(st, "Primero", null));
-			
-
-	}
-	
-	@Test
-	void actualizarHistoriaDescription() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-		
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameImp.addGame(g);
-		StoryServiceImp.addStory(st, g.getId());
-		
-
-		assertNull(StoryServiceImp.setStory(st, "Primero", ""));
-			
-
-	}
-	
-	@Test
-	void TestSetStoryDescriptionAltDescription() {
+	void testSetStoryDescriptionAltDescription() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(1));
@@ -208,8 +78,34 @@ class TsscStoryTest {
 		StoryServiceImp.setStory(st, "Primero", "Segundo");
 		Long id=st.getId();
 		
-		assertEquals("Primero", StoryServiceImp.findStory(id).getAltDescripton());
-		assertEquals("Segundo", StoryServiceImp.findStory(id).getDescription());
+		assertEquals(StoryServiceImp.findStory(id).getAltDescripton(), "Primero");
+		assertEquals(StoryServiceImp.findStory(id).getDescription(), "Segundo");
+			
+
+	}
+	
+	@Test
+	void testSetStoryDescriptionAltDescriptionFail() {
+
+		TsscStory st = new TsscStory();
+		st.setBusinessValue(BigDecimal.valueOf(1));
+		st.setInitialSprint(BigDecimal.valueOf(1));
+		st.setPriority(BigDecimal.valueOf(1));
+		st.setAltDescripton("Probar");
+		st.setDescription("probar2");
+		
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		gameImp.addGame(g);
+		StoryServiceImp.addStory(st, g.getId());
+		
+
+		StoryServiceImp.setStory(st, "", "");
+		Long id=st.getId();
+		
+		assertNotEquals(StoryServiceImp.findStory(id).getAltDescripton(), "");
+		assertNotEquals(StoryServiceImp.findStory(id).getDescription(), "");
 			
 
 	}

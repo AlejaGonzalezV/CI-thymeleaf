@@ -38,9 +38,8 @@ public class TsscStoryServiceImp implements TsscStoryService{
 		if (s != null && s.getBusinessValue().compareTo(BigDecimal.valueOf(0)) == 1
 				&& s.getInitialSprint().compareTo(BigDecimal.valueOf(0)) == 1
 				&& s.getPriority().compareTo(BigDecimal.valueOf(0)) == 1 && gameServ.existById(id)) {
-			TsscGame g = gameServ.findGame(id);
 
-			gameServ.addStory(s, g);
+			gameServ.addStory(s, gameServ.findGame(id));
 			story.save(s);
 			return s;
 		}

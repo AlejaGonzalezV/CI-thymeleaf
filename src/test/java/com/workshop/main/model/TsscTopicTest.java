@@ -15,38 +15,14 @@ class TsscTopicTest {
 	@Autowired
 	private TsscTopicServiceImp topicServiceImp;
 	
-	@Test
-	void TestAddTopicGroupMenor1() {
-	
-		TsscTopic top = new TsscTopic();
-	
-		top.setDefaultGroups(0);
-		top.setDefaultSprints(4);
-		topicServiceImp.addTopic(top);
-		Long id = top.getId();
-		assertNull(topicServiceImp.findTopic(id));
 
-	}
-	
 	@Test
-	void TestAddTopicSprintsMenor1() {
-	
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(4);
-		top.setDefaultSprints(0);
-		topicServiceImp.addTopic(top);
-
-		Long id = top.getId();
-		assertNull(topicServiceImp.findTopic(id));
-
-	}
-	@Test
-	void TestAddTopicSprintsGroupMayor0() {
+	void testAddTopic() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
-		top.setDescription("HEY BA");
+		top.setDescription("Desc");
 		topicServiceImp.addTopic(top);
 
 		Long id = top.getId();
@@ -54,91 +30,42 @@ class TsscTopicTest {
 
 	}
 	
-	
 	@Test
-	void TestEditTopic0() {
+	void TestEditTopic() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
-		top.setDescription("El mejor tema");
 		topicServiceImp.addTopic(top);
 
 		Long id = top.getId();
 	    TsscTopic find=topicServiceImp.findTopic(id);
-	    topicServiceImp.setTopic(find, "Miguel", "Un tema");
+	    topicServiceImp.setTopic(find, "Name", "Desc");
 	    
-	    assertEquals("Miguel", find.getName());
-	    assertEquals("Un tema", find.getDescription());
+	    assertEquals(find.getName(), "Name");
+	    assertEquals(find.getDescription(), "Desc");
 	  
 
 	}
 	
-	
-	
 	@Test
-	void TestEditTopicNullName() {
+	void TestEditTopicFail() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
-		top.setDescription("El mejor tema");
+		top.setName("Name");
+		top.setName("Desc");
 		topicServiceImp.addTopic(top);
 
 		Long id = top.getId();
 	    TsscTopic find=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(find, null, "Un tema"));
-	      
+	    topicServiceImp.setTopic(find, "", "");
+	    
+	    assertNotEquals(find.getName(), "");
+	    assertNotEquals(find.getDescription(), "");
+	  
 
 	}
-	
-	
-	@Test
-	void TestEditTopicNoName() {
-	
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(4);
-		top.setDefaultSprints(4);
-		top.setDescription("El mejor tema");
-		topicServiceImp.addTopic(top);
 
-		Long id = top.getId();
-	    TsscTopic find=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(find, "", "Un tema"));
-	      
-
-	}
-	
-	
-	@Test
-	void TestEditTopicNoDesc() {
-	
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(4);
-		top.setDefaultSprints(4);
-		top.setDescription("El mejor tema");
-		topicServiceImp.addTopic(top);
-
-		Long id = top.getId();
-	    TsscTopic find=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(find, "Miguel", ""));
-	      
-
-	}
-	
-	@Test
-	void TestEditTopicNullDesc() {
-	
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(4);
-		top.setDefaultSprints(4);
-		top.setDescription("El mejor tema");
-		topicServiceImp.addTopic(top);
-
-		Long id = top.getId();
-	    TsscTopic find=topicServiceImp.findTopic(id);
-	   assertNull(topicServiceImp.setTopic(find, "Miguel", null));
-	      
-
-	}
 }
