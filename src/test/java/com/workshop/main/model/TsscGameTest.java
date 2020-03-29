@@ -30,7 +30,7 @@ class TsscGameTest {
 	}
 
 	@Test
-	void testAddGameTopic2() {
+	void testAddGame2() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
@@ -48,20 +48,33 @@ class TsscGameTest {
 	}
 	
 	@Test
-	void testAddGameTopic2Fail() {
+	void testAddGame2Fail() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
-		g.setNSprints(1);
+		g.setNSprints(0);
 
 		TsscTopic tema = new TsscTopic();
 		tema.setDefaultGroups(1);
-		tema.setDefaultSprints(0);
+		tema.setDefaultSprints(1);
 
 		topicServiceImp.addTopic(tema);
-		gameServ.addGame2(g, tema.getId());
-
+		
+		assertNull(gameServ.addGame2(g, tema.getId()));
 		assertFalse(gameServ.existById(g.getId()));
+
+	}
+	
+	@Test
+	void testAddGame2Fail2() {
+
+		TsscTopic tema = new TsscTopic();
+		tema.setDefaultGroups(1);
+		tema.setDefaultSprints(1);
+
+		topicServiceImp.addTopic(tema);
+		
+		assertNull(gameServ.addGame2(null, tema.getId()));
 
 	}
 
@@ -82,6 +95,7 @@ class TsscGameTest {
 		assertNotNull(gameServ.addGameT(g, top.getId()));
 
 	}
+
 
 	@Test
 	void testAddGameTFail() {
@@ -110,20 +124,25 @@ class TsscGameTest {
 		assertNotNull(gameServ.addGame(g));
 
 	}
+	
+	@Test
+	void testAddGameFail() {
+
+		assertNull(gameServ.addGame(null));
+
+	}
 
 	@Test
 	void testSetGameFail() {
 
 		TsscGame g = new TsscGame();
-		g.setNGroups(1);
+		String name = "Name";
+		g.setNGroups(0);
 		g.setNSprints(1);
-		g.setName("Cambiando Nombre");
-		gameServ.addGame(g);
+		
 
-		gameServ.setGame(g, 2, "");
+		assertNull(gameServ.setGame(g, 2, name));
 
-		assertNotEquals(gameServ.findGame(g.getId()).getName(), "");
-		assertNotEquals(g.getNGroups(), 2);
 
 	}
 	
@@ -133,9 +152,8 @@ class TsscGameTest {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
-		g.setName("Cambiando Nombre");
-		gameServ.addGame(g);
 
+		gameServ.addGame(g);
 		gameServ.setGame(g, 2, "Historia");
 
 		assertEquals(gameServ.findGame(g.getId()).getName(), "Historia");

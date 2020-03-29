@@ -56,6 +56,19 @@ class TsscStoryTest {
 		assertFalse(StoryServiceImp.existById(st.getId()));
 
 	}
+	
+	@Test
+	void testSaveStoryAsociadaJuegoFail2() {
+
+
+		TsscGame g = new TsscGame();
+		g.setNGroups(0);
+		g.setNSprints(1);
+		gameImp.addGame(g);
+		
+		assertNull(StoryServiceImp.addStory(null, g.getId()));
+
+	}
 
 	
 	@Test
@@ -98,15 +111,8 @@ class TsscStoryTest {
 		g.setNGroups(1);
 		g.setNSprints(1);
 		gameImp.addGame(g);
-		StoryServiceImp.addStory(st, g.getId());
-		
 
-		StoryServiceImp.setStory(st, "", "");
-		Long id=st.getId();
-		
-		assertNotEquals(StoryServiceImp.findStory(id).getAltDescripton(), "");
-		assertNotEquals(StoryServiceImp.findStory(id).getDescription(), "");
-			
+		assertNull(StoryServiceImp.setStory(st, "", ""));
 
 	}
 }

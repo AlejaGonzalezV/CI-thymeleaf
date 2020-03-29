@@ -41,7 +41,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
-	void TestAddTopicGroupMenor1() {
+	void testAddTopicGroupMenor1() {
 	
 		TsscTopic top = new TsscTopic();
 	
@@ -56,7 +56,7 @@ class TsscTopicTestMockito {
 	}
 	
 	@Test
-	void TestAddTopicSprintsMenor1() {
+	void testAddTopicSprintsMenor1() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
@@ -70,7 +70,7 @@ class TsscTopicTestMockito {
 	}
 	
 	@Test
-	void TestAddTopicSprintsGroupMayor0() {
+	void testAddTopic() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
@@ -86,7 +86,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
-	void TestEditTopic0() {
+	void testEditTopic() {
 	
 		TsscTopic top = new TsscTopic();
 		
@@ -109,7 +109,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
-	void TestEditTopicNullName() {
+	void testEditTopicNullName() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
@@ -128,7 +128,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
-	void TestEditTopicNoName() {
+	void testEditTopicNoName() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
@@ -147,12 +147,12 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
-	void TestEditTopicNoDesc() {
+	void testEditTopicNoDesc() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
-		String name = "High school musical";
+		String name = "HSM";
 		topicServiceImp.addTopic(top);
 		topicServiceImp.setTopic(top, name, "");
 
@@ -165,13 +165,13 @@ class TsscTopicTestMockito {
 	}
 	
 	@Test
-	void TestEditTopicNullDesc() {
+	void testEditTopicNullDesc() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
 		
-		String name = "High school musical";
+		String name = "HSM";
 		topicServiceImp.addTopic(top);
 		topicServiceImp.setTopic(top, name, null);
 

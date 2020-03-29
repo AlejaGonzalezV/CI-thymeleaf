@@ -31,7 +31,14 @@ class TsscTopicTest {
 	}
 	
 	@Test
-	void TestEditTopic() {
+	void testAddTopicFail() {
+	
+		assertNull(topicServiceImp.addTopic(null));
+
+	}
+	
+	@Test
+	void testEditTopic() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
@@ -49,7 +56,7 @@ class TsscTopicTest {
 	}
 	
 	@Test
-	void TestEditTopicFail() {
+	void testEditTopicFail() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);

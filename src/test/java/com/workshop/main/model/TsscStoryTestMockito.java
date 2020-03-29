@@ -35,7 +35,7 @@ class TsscStoryTestMockito {
 	}
 
 	@Test
-	void TestSaveStoryVNMenor0() {
+	void testSaveStoryVNMenor0() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(0));
@@ -138,6 +138,8 @@ class TsscStoryTestMockito {
 		when(gameServ.existById(g.getId())).thenReturn(false);
 		when(storyRepo.existsById(st.getId())).thenReturn(false);
 
+		storyServ.addStory(st, g.getId());
+		
 		assertFalse(storyServ.existById(st.getId()));
 
 	}

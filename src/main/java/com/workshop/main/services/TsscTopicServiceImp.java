@@ -28,7 +28,7 @@ public class TsscTopicServiceImp implements TsscTopicService{
 
 		TsscTopic as = null;
 
-		if (t.getDefaultSprints() > 0 && t.getDefaultGroups() > 0) {
+		if (t != null && t.getDefaultSprints() > 0 && t.getDefaultGroups() > 0) {
 			repo.save(t);
 			as = t;
 		}

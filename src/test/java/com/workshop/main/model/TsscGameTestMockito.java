@@ -53,7 +53,10 @@ class TsscGameTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(0);
 		g.setNSprints(4);
-		gameServ.addGame2(g, 1);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(2);
+		top.setDefaultSprints(2);
+		gameServ.addGame2(g, top.getId());
 		Long id = g.getId();
 		
 		when(gameRepo.existsById(id)).thenReturn(false);
@@ -68,7 +71,10 @@ class TsscGameTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(4);
 		g.setNSprints(0);
-		gameServ.addGame2(g, 1);
+		TsscTopic top = new TsscTopic();
+		top.setDefaultGroups(2);
+		top.setDefaultSprints(2);
+		gameServ.addGame2(g, top.getId());
 		Long id = g.getId();
 		
 		when(gameRepo.existsById(id)).thenReturn(false);
@@ -78,7 +84,7 @@ class TsscGameTestMockito {
 	}
 	
 	@Test
-	void testAddGameTopic2() {
+	void testAddGame2() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(2);
@@ -107,7 +113,7 @@ class TsscGameTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(0);
 		g.setNSprints(1);
-		gameServ.addGameT(g, 2);
+		gameServ.addGame(g);
 
 		Long id = g.getId();
 		
@@ -123,7 +129,7 @@ class TsscGameTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(0);
-		gameServ.addGameT(g, 2);
+		gameServ.addGame(g);
 
 		Long id = g.getId();
 		
@@ -131,6 +137,21 @@ class TsscGameTestMockito {
 
 		assertFalse(gameServ.existById(id));
 		
+
+	}
+	
+	@Test
+	void testAddGame() {
+
+		TsscGame g = new TsscGame();
+		g.setNGroups(1);
+		g.setNSprints(1);
+		long id = g.getId();
+		
+		when(gameRepo.existsById(id)).thenReturn(true);
+		gameServ.addGame(g);
+		
+		assertNotNull(gameServ.existById(id));
 
 	}
 
@@ -181,22 +202,10 @@ class TsscGameTestMockito {
 		assertFalse(gameServ.existById(id));
 
 	}
-
-	@Test
-	void testAddGame() {
-
-		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
-		gameServ.addGame(g);
-		long id = g.getId();
-		when(gameRepo.existsById(id)).thenReturn(true);
-
-		assertNotNull(gameServ.existById(id));
-
-	}
-
 	
+
+
+
 	@Test
 	void testSetGameGroupMenor1() {
 
@@ -216,6 +225,7 @@ class TsscGameTestMockito {
 	
 
 	}
+	
 	
 	@Test
 	void testSetGameNoName() {
