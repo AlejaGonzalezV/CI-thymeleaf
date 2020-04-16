@@ -1,10 +1,16 @@
 package com.workshop.main.model;
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.workshop.main.validate.TopicValidate;
+
+
 
 /**
  * The persistent class for the TSSC_TOPIC database table.
@@ -21,16 +27,23 @@ public class TsscTopic implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TSSC_TOPIC_ID_GENERATOR")
 	private long id;
 
+	@NotBlank(message = "La descripción no puede estar vacía", groups=TopicValidate.class)
 	private String description;
 
+	@NotBlank(groups=TopicValidate.class, message = "El nombre no puede estar vacío")
 	private String name;
 
+	@NotBlank(groups=TopicValidate.class, message = "El Sprint no puede estar vacío")
+	@Min(value = 1, message = "Debe haber al menos 1 sprint", groups=TopicValidate.class)
 	@Column(name = "DEFAULT_SPRINTS")
 	private long defaultSprints;
 
+	@NotBlank(groups=TopicValidate.class, message = "El grupo no puede estar vacío")
+	@Min(value = 1, message = "Debe haber al menos 1 grupo", groups=TopicValidate.class)
 	@Column(name = "DEFAULT_GROUPS")
 	private long defaultGroups;
 
+	@NotBlank(message = "El prefijo no puede estar vacío", groups=TopicValidate.class)
 	@Column(name = "GROUP_PREFIX")
 	private String groupPrefix;
 

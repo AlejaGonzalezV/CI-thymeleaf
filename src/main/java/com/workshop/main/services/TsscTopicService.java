@@ -10,5 +10,6 @@ public interface TsscTopicService {
 	public TsscTopic setTopic(TsscTopic topic, String name, String description);
 	public TsscTopic findTopic(Long id); 
 	public boolean existById(long id);
+	public Iterable<TsscTopic> findAll();
 
 }

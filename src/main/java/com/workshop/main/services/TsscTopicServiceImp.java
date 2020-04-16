@@ -70,6 +70,11 @@ public class TsscTopicServiceImp implements TsscTopicService{
 		return repo.existsById(id);
 	}
 
+	@Override
+	public Iterable<TsscTopic> findAll() {
+		return repo.findAll();
+	}
+
 
 
 }
