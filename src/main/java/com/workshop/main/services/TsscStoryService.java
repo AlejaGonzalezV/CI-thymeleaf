@@ -8,5 +8,7 @@ public interface TsscStoryService {
 	public TsscStory setStory(TsscStory story, String priority, String description);
 	public TsscStory findStory(Long id);
 	public boolean existById(long id);
+	public void delete(TsscStory story);
+	Iterable<TsscStory> findAll();
 
 }

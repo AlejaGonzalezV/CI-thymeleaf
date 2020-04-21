@@ -1,6 +1,10 @@
 package com.workshop.main.model;
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,17 +30,23 @@ public class TsscStory implements Serializable {
 	@Column(name = "ALT_DESCRIPTON")
 	private String altDescripton;
 
+	@NotNull(message = "El valor no puede estar vacío")
 	@Column(name = "BUSINESS_VALUE")
 	private BigDecimal businessValue;
 
+	@NotBlank(message = "La descripción no puede estar vacía")
 	private String description;
 
+	@Min(value = 1, message ="Debe haber al menos 1 sprint")
+	@NotNull(message = "El sprint no puede ser vacío")
 	@Column(name = "INITIAL_SPRINT")
 	private BigDecimal initialSprint;
 
 	@Column(name = "ST_NUMBER")
 	private BigDecimal number;
 
+	@Min(value = 1, message ="Debe ser mayor a 0")
+	@NotNull(message = "La prioridad no debe ser vacía")
 	private BigDecimal priority;
 
 	@Column(name = "SHORT_DESCRIPTION")
@@ -51,6 +61,7 @@ public class TsscStory implements Serializable {
 	private List<TsscDeliverable> tsscDeliverables;
 
 	// bi-directional many-to-one association to TsscGame
+	@NotNull(message = "El juego no debe estar vacío")
 	@ManyToOne
 	@JoinColumn(name = "TSSC_GAME_ID")
 	private TsscGame tsscGame;

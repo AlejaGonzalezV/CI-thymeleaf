@@ -75,6 +75,14 @@ public class TsscTopicServiceImp implements TsscTopicService{
 		return repo.findAll();
 	}
 
+	@Override
+	public void delete(TsscTopic topic) {
+		repo.delete(topic);
+		
+	}
+	
+	
+
 
 
 }

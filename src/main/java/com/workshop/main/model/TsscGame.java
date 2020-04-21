@@ -1,12 +1,19 @@
 package com.workshop.main.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,26 +34,37 @@ public class TsscGame implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TSSC_GAME_ID_GENERATOR")
 	private long id;
 
+	@NotBlank(message = "La contraseña no puede estar vacía")
 	@Column(name = "ADMIN_PASSWORD")
 	private String adminPassword;
 
+	@NotBlank(message = "La contraseña no puede estar vacía")
 	@Column(name = "GUEST_PASSWORD")
 	private String guestPassword;
 
+	@NotNull
+	@Min(value = 1, message = "Debe haber al menos un grupo")
 	@Column(name = "N_GROUPS")
 	private Integer nGroups = 4;
-
+	
+	@NotNull
+	@Min(value = 1, message = "Debe haber al menos un sprint")
 	@Column(name = "N_SPRINTS")
 	private Integer nSprints = 4;
 
+	@NotBlank(message = "El nombre no puede estar vacío")
 	private String name;
 
 	@Column(name = "PAUSE_SECONDS")
 	private Long pauseSeconds = 0L;
 
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "SCHEDULED_DATE")
 	private LocalDate scheduledDate;
 
+	@NotNull
+	@DateTimeFormat(iso = ISO.TIME)
 	@Column(name = "SCHEDULED_TIME")
 	private LocalTime scheduledTime;
 
@@ -56,6 +74,7 @@ public class TsscGame implements Serializable {
 	@Column(name = "TYPEGAME_ID")
 	private BigDecimal typegameId;
 
+	@NotBlank(message = "La contraseña no puede estar vacía")
 	@Column(name = "USER_PASSWORD")
 	private String userPassword;
 

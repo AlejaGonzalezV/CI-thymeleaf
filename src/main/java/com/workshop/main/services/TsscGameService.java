@@ -12,5 +12,7 @@ public interface TsscGameService {
 	public TsscGame findGame(long id);
 	public boolean existById(long id);
 	public TsscStory addStory(TsscStory st, TsscGame g);
+	public Iterable<TsscGame> findAll();
+	public void delete(TsscGame g);
 
 }

@@ -11,5 +11,7 @@ public interface TsscTopicService {
 	public TsscTopic findTopic(Long id); 
 	public boolean existById(long id);
 	public Iterable<TsscTopic> findAll();
+	public void delete(TsscTopic topic);
+	
 
 }

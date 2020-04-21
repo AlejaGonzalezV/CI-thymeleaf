@@ -15,22 +15,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-//			
-//		httpSecurity.formLogin().loginPage("/login").permitAll().and().authorizeRequests()
-//        .antMatchers("/index").permitAll()
-//		.antMatchers("/game/", "/story/", "/game/**", "/story/**").hasAnyRole("admin", "superadmin")
-//		.antMatchers("/topic/**").hasRole("superadmin")
-//		.anyRequest().authenticated().and().httpBasic().and().logout().invalidateHttpSession(true)
-//		.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//		.logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
-//		.accessDeniedHandler(accessDeniedHandler);
-		
-		httpSecurity.authorizeRequests().antMatchers("**").authenticated().anyRequest().permitAll().and().formLogin()
-		.loginPage("/login").permitAll().and().logout()
-		.invalidateHttpSession(true).clearAuthentication(true)
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
-		.permitAll().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
+		
+		httpSecurity.formLogin().loginPage("/login").permitAll().and().authorizeRequests()
+        .antMatchers("/index").permitAll()
+		.antMatchers("/game/", "/story/", "/game/**", "/story/**").hasAnyRole("admin", "superadmin")
+		.antMatchers("/topic/**").hasRole("superadmin")
+		.anyRequest().authenticated().and().httpBasic().and().logout().invalidateHttpSession(true)
+		.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
+		.accessDeniedHandler(accessDeniedHandler);
 		
 		
 	}

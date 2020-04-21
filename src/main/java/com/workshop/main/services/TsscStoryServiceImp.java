@@ -77,4 +77,18 @@ public class TsscStoryServiceImp implements TsscStoryService{
 		return story.existsById(id);
 	}
 
+	@Override
+	public void delete(TsscStory st) {
+		TsscGame game = st.getTsscGame();
+		game.getTsscStories().remove(st);
+		story.delete(st);
+		
+	}
+
+	@Override
+	public Iterable<TsscStory> findAll() {
+		return story.findAll();
+	}
+
+
 }

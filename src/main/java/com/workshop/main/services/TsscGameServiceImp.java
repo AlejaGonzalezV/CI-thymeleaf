@@ -124,5 +124,17 @@ public class TsscGameServiceImp implements TsscGameService {
 		return g.addTsscStory(st);
 	}
 	
+	@Override
+	public Iterable<TsscGame> findAll() {
+		return game.findAll();
+	}
+
+	@Override
+	public void delete(TsscGame g) {
+		
+		game.delete(g);
+		
+	}
+	
 	
 }
