@@ -49,74 +49,67 @@ public class TsscGameDaoImp implements TsscGameDao{
 		String jpql = "SELECT t FROM TsscGame t";
 		return entityManager.createQuery(jpql).getResultList();
 	}
-	
-	//Punto 1b)
-	
 
-		@Override
-		public List<TsscGame> findByNameTopic(String name) {
+	@Override
+	public List<TsscGame> findByNameTopic(String name) {
 			
-			String q = "SELECT t FROM TsscGame t where t.tsscTopic.name = :name";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("name", name);
+		String q = "SELECT t FROM TsscGame t where t.tsscTopic.name = :name";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("name", name);
+		return query.getResultList();
+			
+	}
+
+	@Override
+	public List<TsscGame> findByDescriptionTopic(String description) {
+			
+		String q = "SELECT t FROM TsscGame t where t.tsscTopic.description = :description";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("description", description);
 			return query.getResultList();
 			
-		}
+	}
 
-		@Override
-		public List<TsscGame> findByDescriptionTopic(String description) {
-			
-			String q = "SELECT t FROM TsscGame t where t.tsscTopic.description = :description";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("description", description);
-			return query.getResultList();
-			
-		}
+	@Override
+	public List<TsscGame> findByIdTopic(long idTopic) {
 
-		@Override
-		public List<TsscGame> findByIdTopic(long idTopic) {
+		String q = "SELECT t FROM TsscGame t where t.tsscTopic.id = :id";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("id", idTopic);
+		return query.getResultList();
+	}
 
-			String q = "SELECT t FROM TsscGame t where t.tsscTopic.id = :id";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("id", idTopic);
-			return query.getResultList();
-		}
+	@Override
+	public List<TsscGame> findByDates(LocalDate date1, LocalDate date2) {
 
-		//1c) 
+		String q = "SELECT t FROM TsscGame t where t.scheduledDate between :date1 and :date2";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("date1", date1);
+		query.setParameter("date2", date2);
+		return query.getResultList();
 		
-		@Override
-		public List<TsscGame> findByDates(LocalDate date1, LocalDate date2) {
+	}
 
-			String q = "SELECT t FROM TsscGame t where t.scheduledDate between :date1 and :date2";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("date1", date1);
-			query.setParameter("date2", date2);
-			return query.getResultList();
-		}
+	@Override
+	public List<TsscGame> findByDateHours(LocalDate date, LocalTime h1, LocalTime h2) {
 
-		@Override
-		public List<TsscGame> findByDateHours(LocalDate date, LocalTime h1, LocalTime h2) {
-
-			String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and  t.scheduledTime between :h1 and :h2";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("h1", h1);
-			query.setParameter("h2", h2);
-			return query.getResultList();
-		}
+		String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and  t.scheduledTime between :h1 and :h2";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("h1", h1);
+		query.setParameter("h2", h2);
+		return query.getResultList();
 		
-		//2b)
-		//Mostrar los juegos que están programados para una fecha pero tienen menos de diez
-		//historias asociadas para una fecha dada o no tienen al menos un cronómetro
-		//especificado
+	}
 
-		@Override
-		public List<TsscGame> findByDateStoryTime(LocalDate date) {
+	@Override
+	public List<TsscGame> findByDateStoryTime(LocalDate date) {
 			
-			String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and (size(t.tsscStories) < 10 or size(t.tsscTimecontrols)>0";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("date", date);
-			return query.getResultList();
-		}
+		String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and (size(t.tsscStories) < 10 or size(t.tsscTimecontrols)>0";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("date", date);
+		return query.getResultList();
+		
+	}
 	
 
 }

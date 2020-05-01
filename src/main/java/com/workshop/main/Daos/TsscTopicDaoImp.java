@@ -51,39 +51,38 @@ public class TsscTopicDaoImp implements TsscTopicDao{
 		String jpql = "SELECT t FROM TsscGame t";
 		return entityManager.createQuery(jpql).getResultList();
 	}
-	
-	//Punto 1a)
-	
-		@Override
-		public List<TsscTopic> findByName(String name) {
-			String q = "Select t from TsscTopic t where t.name = :name";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("name", name);
-			return query.getResultList();
-		}
 
-		@Override
-		public List<TsscTopic> findByDescription(String description) {
-			String q = "Select t from TsscTopic t where t.description = :description";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("description", description);
 
-			return query.getResultList();
-		}
+	@Override
+	public List<TsscTopic> findByName(String name) {
+		String q = "Select t from TsscTopic t where t.name = :name";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("name", name);
+		return query.getResultList();
 		
-		//2a)
-		@Override
-		public List<Pair<TsscTopic, Integer>> findTopicsByGameDate(LocalDate date) {
+	}
+
+	@Override
+	public List<TsscTopic> findByDescription(String description) {
+		
+		String q = "Select t from TsscTopic t where t.description = :description";
+		Query query = entityManager.createQuery(q);
+		query.setParameter("description", description);
+		return query.getResultList();
+		
+	}
+
+	@Override
+	public List<Pair<TsscTopic, Integer>> findTopicsByGameDate(LocalDate date) {
 			
-			List<Pair<TsscTopic, Integer>> list = new ArrayList<>();
+		List<Pair<TsscTopic, Integer>> list = new ArrayList<>();
 			
-			String q = "Select t, count(c) from TsscTopic t JOIN t.tsscGames c ON c.scheduledDate = :date and c ORDER BY c.scheduledTime ASC";
-					// "where (select  from TsscTopic c where t. = :name";
-			Query query = entityManager.createQuery(q);
-			query.setParameter("date", date);
-			
-			return query.getResultList();
-		}
+		String q = "Select t, count(c) from TsscTopic t JOIN t.tsscGames c ON c.scheduledDate = :date and c ORDER BY c.scheduledTime ASC";		
+		Query query = entityManager.createQuery(q);
+		query.setParameter("date", date);
+		return query.getResultList();
+		
+	}
 
 		
 

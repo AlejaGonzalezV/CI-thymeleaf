@@ -15,10 +15,8 @@ public interface TsscTopicDao {
 	public TsscTopic findById(long id);
 	public List<TsscTopic> findAll();
 	
-	//1a)
 	public List<TsscTopic> findByName(String name);
 	public List<TsscTopic> findByDescription(String description);
-	//2a)
 	public List<Pair<TsscTopic, Integer>> findTopicsByGameDate(LocalDate date);
 		
 
