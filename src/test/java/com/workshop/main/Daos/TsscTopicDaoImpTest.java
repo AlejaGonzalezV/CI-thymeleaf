@@ -77,8 +77,7 @@ class TsscTopicDaoImpTest {
 		topic.setDefaultSprints(2);
 		topic.setGroupPrefix("Grupo");
 		topicDao.save(topic);
-		
-		assertNotNull(topicDao.findByName(topic.getName()));
+		assertEquals(topicDao.findByName(topic.getName()).size(), 1);
 		
 	}
 	
@@ -93,8 +92,7 @@ class TsscTopicDaoImpTest {
 		topic.setDefaultSprints(2);
 		topic.setGroupPrefix("Grupo");
 		topicDao.save(topic);
-		
-		assertNotNull(topicDao.findByDescription(topic.getDescription()));
+		assertEquals(topicDao.findByDescription(topic.getDescription()).size(), 1);
 		
 	}
 	

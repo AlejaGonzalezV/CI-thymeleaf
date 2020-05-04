@@ -97,6 +97,7 @@ public class TsscGameDaoImp implements TsscGameDao{
 		Query query = entityManager.createQuery(q);
 		query.setParameter("h1", h1);
 		query.setParameter("h2", h2);
+		query.setParameter("date", date);
 		return query.getResultList();
 		
 	}
