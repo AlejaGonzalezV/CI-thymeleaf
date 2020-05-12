@@ -12,7 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.workshop.main.Daos.TsscTopicDao;
 import com.workshop.main.repositories.TsscTopicRepository;
 import com.workshop.main.services.TsscTopicServiceImp;
 
@@ -24,7 +27,7 @@ class TsscTopicTestMockito {
 	private TsscTopicServiceImp topicServiceImp;
 	
 	@Mock
-	private TsscTopicRepository topicRepo;
+	private TsscTopicDao topicRepo;
 	
 	
 	@BeforeAll
@@ -41,6 +44,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddTopicGroupMenor1() {
 	
 		TsscTopic top = new TsscTopic();
@@ -50,12 +54,13 @@ class TsscTopicTestMockito {
 		topicServiceImp.addTopic(top);
 		Long id = top.getId();
 		
-		when(topicRepo.existsById(id)).thenReturn(false);
+		when(topicRepo.existById(id)).thenReturn(false);
 		assertNull(topicServiceImp.findTopic(id));
 
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddTopicSprintsMenor1() {
 	
 		TsscTopic top = new TsscTopic();
@@ -64,12 +69,13 @@ class TsscTopicTestMockito {
 		topicServiceImp.addTopic(top);
 		Long id = top.getId();
 		
-		when(topicRepo.existsById(id)).thenReturn(false);
+		when(topicRepo.existById(id)).thenReturn(false);
 		assertNull(topicServiceImp.findTopic(id));
 
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddTopic() {
 	
 		TsscTopic top = new TsscTopic();
@@ -79,13 +85,14 @@ class TsscTopicTestMockito {
 		topicServiceImp.addTopic(top);
 
 		Long id = top.getId();
-		when(topicRepo.existsById(id)).thenReturn(false);
+		when(topicRepo.existById(id)).thenReturn(false);
 		assertNotNull(topicServiceImp.findTopic(id));
 
 	}
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopic() {
 	
 		TsscTopic top = new TsscTopic();
@@ -97,9 +104,8 @@ class TsscTopicTestMockito {
 		topicServiceImp.addTopic(top);
 
 		TsscTopic t = topicServiceImp.setTopic(top, name, description);
-		Optional<TsscTopic> op = Optional.of(t);
 		Long id = top.getId();
-		when(topicRepo.findById(id)).thenReturn(op);
+		when(topicRepo.findById(id)).thenReturn(t);
 
 		assertEquals(topicServiceImp.findTopic(top.getId()).getName(), top.getName());
 	    assertEquals(topicServiceImp.findTopic(top.getId()).getDescription(), top.getDescription());
@@ -109,18 +115,19 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopicNullName() {
 	
 		TsscTopic top = new TsscTopic();
 		top.setDefaultGroups(4);
 		top.setDefaultSprints(4);
-		String description = "Desc";
+		top.setName(null);
+		top.setDescription("Desc");
 		topicServiceImp.addTopic(top);
-		topicServiceImp.setTopic(top, null, description);
 
 		Long id = top.getId();
-		Optional<TsscTopic> op = Optional.of(top);
-		when(topicRepo.findById(id)).thenReturn(op);
+		when(topicRepo.existById(id)).thenReturn(true);
+		when(topicRepo.findById(id)).thenReturn(top);
 		
 		assertNull(topicServiceImp.findTopic(top.getId()).getName());
 
@@ -128,6 +135,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopicNoName() {
 	
 		TsscTopic top = new TsscTopic();
@@ -138,8 +146,7 @@ class TsscTopicTestMockito {
 		topicServiceImp.setTopic(top, "", description);
 
 		Long id = top.getId();
-		Optional<TsscTopic> op = Optional.of(top);
-		when(topicRepo.findById(id)).thenReturn(op);
+		when(topicRepo.findById(id)).thenReturn(top);
 		
 		assertNull(topicServiceImp.findTopic(top.getId()).getName());      
 
@@ -147,6 +154,7 @@ class TsscTopicTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopicNoDesc() {
 	
 		TsscTopic top = new TsscTopic();
@@ -157,14 +165,14 @@ class TsscTopicTestMockito {
 		topicServiceImp.setTopic(top, name, "");
 
 		Long id = top.getId();
-		Optional<TsscTopic> op = Optional.of(top);
-		when(topicRepo.findById(id)).thenReturn(op);
+		when(topicRepo.findById(id)).thenReturn(top);
 		
 		assertNull(topicServiceImp.findTopic(top.getId()).getName());   
 
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopicNullDesc() {
 	
 		TsscTopic top = new TsscTopic();
@@ -176,8 +184,7 @@ class TsscTopicTestMockito {
 		topicServiceImp.setTopic(top, name, null);
 
 		Long id = top.getId();
-		Optional<TsscTopic> op = Optional.of(top);
-		when(topicRepo.findById(id)).thenReturn(op);
+		when(topicRepo.findById(id)).thenReturn(top);
 		
 		assertNull(topicServiceImp.findTopic(top.getId()).getName());
 	      

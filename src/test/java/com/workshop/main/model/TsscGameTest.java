@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.workshop.main.services.TsscGameServiceImp;
 import com.workshop.main.services.TsscTopicServiceImp;
@@ -30,6 +32,7 @@ class TsscGameTest {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2() {
 
 		TsscGame g = new TsscGame();
@@ -48,6 +51,7 @@ class TsscGameTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2Fail() {
 
 		TsscGame g = new TsscGame();
@@ -66,6 +70,7 @@ class TsscGameTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2Fail2() {
 
 		TsscTopic tema = new TsscTopic();
@@ -80,6 +85,7 @@ class TsscGameTest {
 
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameT() {
 
 		TsscGame g = new TsscGame();
@@ -98,6 +104,7 @@ class TsscGameTest {
 
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameTFail() {
 
 		TsscGame g = new TsscGame();
@@ -115,6 +122,7 @@ class TsscGameTest {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame() {
 
 		TsscGame g = new TsscGame();
@@ -126,6 +134,7 @@ class TsscGameTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameFail() {
 
 		assertNull(gameServ.addGame(null));
@@ -133,6 +142,7 @@ class TsscGameTest {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGameFail() {
 
 		TsscGame g = new TsscGame();
@@ -147,6 +157,7 @@ class TsscGameTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGame() {
 
 		TsscGame g = new TsscGame();

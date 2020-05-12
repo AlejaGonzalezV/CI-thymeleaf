@@ -20,6 +20,7 @@ public interface TsscGameDao {
 	public List<TsscGame> findByDates(LocalDate date1, LocalDate date2);
 	public List<TsscGame> findByDateHours(LocalDate date, LocalTime h1, LocalTime h2);
 	public List<TsscGame> findByDateStoryTime(LocalDate date);
+	public boolean existById(long id);
 		
 		
 

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.workshop.main.model.TsscTopic;
 import com.workshop.main.services.TsscTopicServiceImp;
@@ -17,6 +19,7 @@ class TsscTopicTest {
 	
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddTopic() {
 	
 		TsscTopic top = new TsscTopic();
@@ -31,6 +34,7 @@ class TsscTopicTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddTopicFail() {
 	
 		assertNull(topicServiceImp.addTopic(null));
@@ -38,6 +42,7 @@ class TsscTopicTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopic() {
 	
 		TsscTopic top = new TsscTopic();
@@ -56,6 +61,7 @@ class TsscTopicTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testEditTopicFail() {
 	
 		TsscTopic top = new TsscTopic();

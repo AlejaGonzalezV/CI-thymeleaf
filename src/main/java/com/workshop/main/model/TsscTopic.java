@@ -133,4 +133,25 @@ public class TsscTopic implements Serializable {
 
 		return tsscStory;
 	}
+
+	public List<TsscGame> getTsscGames() {
+		return tsscGames;
+	}
+
+	public void setTsscGames(List<TsscGame> tsscGames) {
+		this.tsscGames = tsscGames;
+	}
+	
+	public TsscGame addTsscGame(TsscGame tsscGame) {
+		getTsscGames().add(tsscGame);
+
+		return tsscGame;
+	}
+
+	public void setTsscCronograma(List<TsscTimecontrol> tsscCronograma) {
+		this.tsscCronograma = tsscCronograma;
+	}
+	
+	
+	
 }

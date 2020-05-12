@@ -2,18 +2,20 @@ package com.workshop.main.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.workshop.main.repositories.TsscStoryRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import com.workshop.main.Daos.TsscStoryDao;
 import com.workshop.main.services.TsscGameServiceImp;
 import com.workshop.main.services.TsscStoryServiceImp;
 
@@ -21,13 +23,14 @@ import com.workshop.main.services.TsscStoryServiceImp;
 class TsscStoryTestMockito {
 
 	@InjectMocks
+	@Autowired
 	private TsscStoryServiceImp storyServ;
 
 	@Mock
-	private TsscGameServiceImp gameServ;
+	private TsscStoryDao storyRepo;
 	
-	@Mock
-	private TsscStoryRepository storyRepo;
+	@Autowired
+	private TsscGameServiceImp gameServ;
 	
 	@BeforeEach
 	public void before() {
@@ -35,6 +38,7 @@ class TsscStoryTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSaveStoryVNMenor0() {
 
 		TsscStory st = new TsscStory();
@@ -45,10 +49,9 @@ class TsscStoryTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
-		
-		when(gameServ.existById(g.getId())).thenReturn(true);
-		when(gameServ.findGame(g.getId())).thenReturn(g);
-		when(storyRepo.existsById(st.getId())).thenReturn(false);
+		gameServ.addGame(g);
+
+		when(storyRepo.existById(st.getId())).thenReturn(false);
 		
 		storyServ.addStory(st, g.getId());
 		
@@ -57,6 +60,7 @@ class TsscStoryTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSaveStorySprintInicialMenor0() {
 
 		TsscStory st = new TsscStory();
@@ -67,10 +71,9 @@ class TsscStoryTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
+		gameServ.addGame(g);
 		
-		when(gameServ.existById(g.getId())).thenReturn(true);
-		when(gameServ.findGame(g.getId())).thenReturn(g);
-		when(storyRepo.existsById(st.getId())).thenReturn(false);
+		when(storyRepo.existById(st.getId())).thenReturn(false);
 		
 		storyServ.addStory(st, g.getId());
 		
@@ -79,6 +82,7 @@ class TsscStoryTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSaveStoryPriorityMenor0() {
 
 		TsscStory st = new TsscStory();
@@ -89,10 +93,9 @@ class TsscStoryTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
-		
-		when(gameServ.existById(g.getId())).thenReturn(true);
-		when(gameServ.findGame(g.getId())).thenReturn(g);
-		when(storyRepo.existsById(st.getId())).thenReturn(false);
+		gameServ.addGame(g);
+
+		when(storyRepo.existById(st.getId())).thenReturn(false);
 		
 		storyServ.addStory(st, g.getId());
 		
@@ -101,22 +104,24 @@ class TsscStoryTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSaveStoryAsociadaJuego() {
-
-		TsscStory st = new TsscStory();
-		st.setBusinessValue(BigDecimal.valueOf(1));
-		st.setInitialSprint(BigDecimal.valueOf(1));
-		st.setPriority(BigDecimal.valueOf(1));
-
+		
+		
 		TsscGame g = new TsscGame();
-		g.setNGroups(1);
-		g.setNSprints(1);
+		g.setNGroups(3);
+		g.setNSprints(3);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
 		
-		when(gameServ.existById(g.getId())).thenReturn(true);
-		when(gameServ.findGame(g.getId())).thenReturn(g);
-		when(storyRepo.existsById(st.getId())).thenReturn(true);
-		when(gameServ.addStory(st, g)).thenReturn(st);
+		TsscStory st = new TsscStory();
+		st.setBusinessValue(BigDecimal.valueOf(2));
+		st.setInitialSprint(BigDecimal.valueOf(2));
+		st.setPriority(BigDecimal.valueOf(2));
 		
+
+		when(storyRepo.existById(st.getId())).thenReturn(true);			
 		storyServ.addStory(st, g.getId());
 		
 		assertTrue(storyServ.existById(st.getId()));
@@ -124,19 +129,22 @@ class TsscStoryTestMockito {
 	}	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSaveStoryNoAsociadaJuego() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(1));
 		st.setInitialSprint(BigDecimal.valueOf(1));
 		st.setPriority(BigDecimal.valueOf(1));
-
+		
 		TsscGame g = new TsscGame();
 		g.setNGroups(0);
 		g.setNSprints(1);
-		
-		when(gameServ.existById(g.getId())).thenReturn(false);
-		when(storyRepo.existsById(st.getId())).thenReturn(false);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
+
+		when(storyRepo.existById(st.getId())).thenReturn(false);
 
 		storyServ.addStory(st, g.getId());
 		
@@ -146,6 +154,7 @@ class TsscStoryTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSetStoryAltDescriptionNull() {
 
 		TsscStory st = new TsscStory();
@@ -157,10 +166,14 @@ class TsscStoryTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
 		
-		Optional<TsscStory> op = Optional.of(st);
-		when(storyRepo.existsById(g.getId())).thenReturn(true);
-		when(storyRepo.findById(g.getId())).thenReturn(op);
+		storyServ.addStory(st, g.getId());
+		
+		when(storyRepo.existById(g.getId())).thenReturn(true);
+		when(storyRepo.findById(g.getId())).thenReturn(st);
 		
 		storyServ.setStory(st, null, "segunda");
 		
@@ -172,74 +185,84 @@ class TsscStoryTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSetStoryAltDescription() {
-
+		
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(1));
 		st.setInitialSprint(BigDecimal.valueOf(1));
 		st.setPriority(BigDecimal.valueOf(1));
-		st.setDescription("Descrip");
 		st.setAltDescripton("AltDesc");
 		
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
 		
-		Optional<TsscStory> op = Optional.of(st);
-		when(storyRepo.existsById(g.getId())).thenReturn(true);
-		when(storyRepo.findById(g.getId())).thenReturn(op);
+		storyServ.addStory(st, g.getId());
+		
+		when(storyRepo.existById(g.getId())).thenReturn(true);
+		when(storyRepo.findById(g.getId())).thenReturn(st);
 		
 		storyServ.setStory(st, "", "segunda");
 		
 		assertNotEquals(storyServ.findStory(st.getId()).getAltDescripton(), "");
-		assertNotEquals(storyServ.findStory(st.getId()).getDescription(), "segunda");
-			
+		assertNotEquals(storyServ.findStory(st.getId()).getDescription(), "segunda");		
 
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSetStoryNoDescription() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(1));
 		st.setInitialSprint(BigDecimal.valueOf(1));
 		st.setPriority(BigDecimal.valueOf(1));
-		st.setDescription("Descrip");
 		st.setAltDescripton("AltDesc");
 		
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
 		
-		Optional<TsscStory> op = Optional.of(st);
-		when(storyRepo.existsById(g.getId())).thenReturn(true);
-		when(storyRepo.findById(g.getId())).thenReturn(op);
+		storyServ.addStory(st, g.getId());
+		
+		when(storyRepo.existById(g.getId())).thenReturn(true);
+		when(storyRepo.findById(g.getId())).thenReturn(st);
 		
 		storyServ.setStory(st, "segunda", null);
 		
-		assertNotNull(storyServ.findStory(st.getId()).getDescription());
-		assertNotEquals(storyServ.findStory(st.getId()).getAltDescripton(), "segunda");
-			
+		assertNotNull(storyServ.findStory(st.getId()).getAltDescripton());
+		assertNotEquals(storyServ.findStory(st.getId()).getDescription(), "segunda");
 
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetStoryDescription() {
 
 		TsscStory st = new TsscStory();
 		st.setBusinessValue(BigDecimal.valueOf(1));
 		st.setInitialSprint(BigDecimal.valueOf(1));
 		st.setPriority(BigDecimal.valueOf(1));
-		st.setDescription("Descrip");
 		st.setAltDescripton("AltDesc");
 		
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
+		List<TsscStory> stList = new ArrayList<TsscStory>();
+		g.setTsscStories(stList);
+		gameServ.addGame(g);
 		
-		Optional<TsscStory> op = Optional.of(st);
-		when(storyRepo.existsById(g.getId())).thenReturn(true);
-		when(storyRepo.findById(g.getId())).thenReturn(op);
+		storyServ.addStory(st, g.getId());
+		
+		when(storyRepo.existById(g.getId())).thenReturn(true);
+		when(storyRepo.findById(g.getId())).thenReturn(st);
 		
 		storyServ.setStory(st, "segunda", "");
 		
@@ -250,6 +273,7 @@ class TsscStoryTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void TestSetStoryDescriptionAltDescription() {
 
 		TsscStory st = new TsscStory();
@@ -262,10 +286,9 @@ class TsscStoryTestMockito {
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
-		
-		Optional<TsscStory> op = Optional.of(st);
-		when(storyRepo.existsById(g.getId())).thenReturn(true);
-		when(storyRepo.findById(g.getId())).thenReturn(op);
+
+		when(storyRepo.existById(g.getId())).thenReturn(true);
+		when(storyRepo.findById(g.getId())).thenReturn(st);
 		
 		storyServ.setStory(st, "Primero", "Segundo");
 		

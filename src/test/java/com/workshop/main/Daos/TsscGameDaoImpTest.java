@@ -2,8 +2,11 @@ package com.workshop.main.Daos;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.workshop.main.model.TsscGame;
 import com.workshop.main.model.TsscStory;
+import com.workshop.main.model.TsscTimecontrol;
 import com.workshop.main.model.TsscTopic;
 
 @SpringBootTest
@@ -24,6 +28,8 @@ class TsscGameDaoImpTest {
 	private TsscTopicDao topicDao;
 	@Autowired
 	private TsscStoryDao storyDao;
+	@Autowired
+	private TsscTimecontrolDao tcDao;
 	
 
 	@Test
@@ -271,24 +277,6 @@ class TsscGameDaoImpTest {
 		
 		assertTrue(gameDao.findByDateHours(date, h1, h2).size() == 2);
 		
-//		TsscGame g = new TsscGame();
-//		g.setNGroups(4);
-//		g.setNSprints(4);
-//	
-//		g.setName("Juego");
-//		g.setAdminPassword("pass");
-//		g.setScheduledDate(LocalDate.of(2020, 2, 2));
-//		g.setStartTime(LocalTime.of(3, 30));
-//		g.setUserPassword("pass");
-//		g.setGuestPassword("pass");
-//		gameDao.save(g);
-//		
-//		LocalTime time1 = LocalTime.of(2, 30);
-//		LocalTime time2 = LocalTime.of(4, 30);
-//		
-//		assertTrue(gameDao.findByDateHours(g.getScheduledDate(), time1, time2).contains(g));
-
-		
 	}
 	
 	@Test
@@ -298,7 +286,6 @@ class TsscGameDaoImpTest {
 		TsscGame g = new TsscGame();
 		g.setNGroups(4);
 		g.setNSprints(4);
-	
 		g.setName("Juego");
 		g.setAdminPassword("pass");
 		g.setScheduledDate(LocalDate.of(2020, 2, 2));
@@ -306,12 +293,71 @@ class TsscGameDaoImpTest {
 		g.setUserPassword("pass");
 		g.setGuestPassword("pass");
 		
-		TsscStory s = new TsscStory();
-		
-		
-		
 		gameDao.save(g);
 		
+		TsscGame g2 = new TsscGame();
+		g2.setNGroups(4);
+		g2.setNSprints(4);
+		g2.setName("Juego");
+		g2.setAdminPassword("pass");
+		g2.setScheduledDate(LocalDate.of(2020, 2, 2));
+		g2.setStartTime(LocalTime.MIDNIGHT);
+		g2.setUserPassword("pass");
+		g2.setGuestPassword("pass");
+		
+		gameDao.save(g2);
+		
+		TsscStory s = new TsscStory();
+		s.setBusinessValue(BigDecimal.valueOf(1));
+		s.setInitialSprint(BigDecimal.valueOf(1));
+		s.setPriority(BigDecimal.valueOf(1));
+		s.setDescription("descripcion");
+		s.setTsscGame(g);
+		
+		storyDao.save(s);
+		
+		TsscStory s2 = new TsscStory();
+		s2.setBusinessValue(BigDecimal.valueOf(1));
+		s2.setInitialSprint(BigDecimal.valueOf(1));
+		s2.setPriority(BigDecimal.valueOf(1));
+		s2.setDescription("descripcion");
+		s2.setTsscGame(g2);
+		
+		storyDao.save(s2);
+		
+		List<TsscStory>lista = new ArrayList<TsscStory>();
+		List<TsscStory>lista2 = new ArrayList<TsscStory>();
+		
+		g.setTsscStories(lista);
+		g2.setTsscStories(lista2);
+		
+		g.addTsscStory(s);
+		g2.addTsscStory(s2);
+		
+		TsscTimecontrol tc2 = new TsscTimecontrol();
+		tc2.setAutostart("Auto");
+		tc2.setIntervalRunning(BigDecimal.valueOf(20));
+		tc2.setLastPlayTime(LocalTime.now());
+		tc2.setName("Nombre");
+		tc2.setOrder(BigDecimal.valueOf(20));
+		tc2.setState("State");
+		tc2.setTimeInterval(BigDecimal.valueOf(20));
+		tc2.setType("Type");
+		tcDao.save(tc2);
+		
+		List<TsscTimecontrol>tcLista2 = new ArrayList<TsscTimecontrol>();
+		
+		g2.setTsscTimecontrol(tcLista2);
+		g2.addTsscTimecontrol(tc2);
+		gameDao.merge(g);
+		gameDao.merge(g2);
+		
+		LocalDate date = LocalDate.of(2020, 2, 2);
+		
+		assertTrue(gameDao.findByDateStoryTime(date).contains(g));
+		assertTrue(gameDao.findByDateStoryTime(date).contains(g2));
+			
 	}
 
+	
 }

@@ -73,14 +73,31 @@ public class TsscTopicDaoImp implements TsscTopicDao{
 	}
 
 	@Override
-	public List<Pair<TsscTopic, Integer>> findTopicsByGameDate(LocalDate date) {
+	public List<Object[]> findTopicsByGameDate(LocalDate date) {
 			
 		List<Pair<TsscTopic, Integer>> list = new ArrayList<>();
 			
-		String q = "Select t, count(c) from TsscTopic t JOIN t.tsscGames c ON c.scheduledDate = :date and c ORDER BY c.scheduledTime ASC";		
+		String q = "SELECT b.tsscTopic , count(b.tsscTopic) FROM TsscGame b WHERE b.id IN (SELECT a.id from TsscGame a WHERE a.scheduledDate = :date"
+				+ "  ORDER BY a.scheduledTime DESC) GROUP BY b.tsscTopic";
+		//String q = "Select a from TsscGame a Where (a.scheduledDate =:date AND (((SELECT Count(b) FROM TsscTimecontrol b WHERE b.tsscGame.id = a.id)=0) OR (SELECT Count(c) FROM TsscStory c WHERE c.TsscGame.id = a.id ) < 10))";		
 		Query query = entityManager.createQuery(q);
 		query.setParameter("date", date);
 		return query.getResultList();
+		
+	}
+
+	@Override
+	public boolean existById(long id) {
+		
+		if(entityManager.find(TsscTopic.class, id) == null) {
+			
+			return false;
+			
+		}else {
+			
+			return true;
+			
+		}
 		
 	}
 

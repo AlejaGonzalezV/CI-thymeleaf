@@ -46,4 +46,18 @@ public class TsscStoryDaoImp implements TsscStoryDao{
 		return entityManager.createQuery(jpql).getResultList();
 	}
 
+	@Override
+	public boolean existById(long id) {
+		if(entityManager.find(TsscStory.class, id) == null) {
+			
+			return false;
+			
+		}else {
+			
+			return true;
+			
+		}
+		
+	}
+
 }

@@ -14,5 +14,6 @@ public interface TsscGameService {
 	public TsscStory addStory(TsscStory st, TsscGame g);
 	public Iterable<TsscGame> findAll();
 	public void delete(TsscGame g);
+	public void update(TsscGame g);
 
 }

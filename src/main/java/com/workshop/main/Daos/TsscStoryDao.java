@@ -11,6 +11,7 @@ public interface TsscStoryDao {
 	public void delete(TsscStory entity);
 	public TsscStory findById(long id);
 	public List<TsscStory> findAll();
+	public boolean existById(long id);
 
 
 }

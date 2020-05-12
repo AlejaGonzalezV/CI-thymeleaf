@@ -3,6 +3,8 @@ package com.workshop.main.model;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.workshop.main.repositories.TsscGameRepository;
 import com.workshop.main.services.TsscGameServiceImp;
@@ -22,7 +26,7 @@ import com.workshop.main.services.TsscTopicServiceImp;
 @SpringBootTest
 class TsscGameTestMockito {
 
-	@Mock
+	@Autowired
 	private TsscTopicServiceImp topicServ;
 	
 	@Mock
@@ -48,6 +52,7 @@ class TsscGameTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2GroupMenor1() {
 
 		TsscGame g = new TsscGame();
@@ -66,6 +71,7 @@ class TsscGameTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2SprintsMenor1() {
 
 		TsscGame g = new TsscGame();
@@ -84,30 +90,33 @@ class TsscGameTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame2() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(2);
 		g.setNSprints(2);
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(2);
-		top.setDefaultSprints(2);
+		
+		List<TsscGame> list = new ArrayList<TsscGame>();
+	    TsscTopic top = new TsscTopic();
+	    top.setDefaultGroups(3);
+	    top.setDefaultSprints(2);
+	    top.setTsscGames(list);
+	    List<TsscStory> stories = new ArrayList<TsscStory>();
+	    List<TsscTimecontrol> times = new ArrayList<TsscTimecontrol>();
+	    top.setTsscStories(stories);
+	    top.setTsscCronograma(times);
+	    topicServ.addTopic(top);
 
-		Long id = g.getId();
-		long idt = top.getId();
-		
-		when(topicServ.existById(idt)).thenReturn(true);
-		when(topicServ.findTopic(idt)).thenReturn(top);
-		when(gameRepo.existsById(id)).thenReturn(true);
-		
-		gameServ.addGame2(g, top.getId());
-		
-		assertTrue(gameServ.existById(id));
+        when(gameRepo.existsById(g.getId())).thenReturn(true);
+        gameServ.addGame2(g,top.getId());
+        assertNotNull(gameServ.findGame(g.getId()));
 
 	}
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameGroupMenor1() {
 
 		TsscGame g = new TsscGame();
@@ -124,6 +133,7 @@ class TsscGameTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameSprintsMenor1() {
 
 		TsscGame g = new TsscGame();
@@ -141,6 +151,7 @@ class TsscGameTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGame() {
 
 		TsscGame g = new TsscGame();
@@ -156,63 +167,67 @@ class TsscGameTestMockito {
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameT() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(2);
 		g.setNSprints(2);
 
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(2);
-		top.setDefaultSprints(2);
+		List<TsscGame> list = new ArrayList<TsscGame>();
+	    TsscTopic top = new TsscTopic();
+	    top.setDefaultGroups(3);
+	    top.setDefaultSprints(2);
+	    top.setTsscGames(list);
+	    List<TsscStory> stories = new ArrayList<TsscStory>();
+	    List<TsscTimecontrol> times = new ArrayList<TsscTimecontrol>();
+	    top.setTsscStories(stories);
+	    top.setTsscCronograma(times);
+	    topicServ.addTopic(top);
 			
+        when(gameRepo.existsById(g.getId())).thenReturn(true);
+        gameServ.addGame2(g,top.getId());
 		long id = g.getId();
-		long idt = top.getId();
-		
-		when(topicServ.existById(idt)).thenReturn(true);
-		when(topicServ.findTopic(idt)).thenReturn(top);
-		when(gameRepo.existsById(id)).thenReturn(true);
-
-		gameServ.addGameT(g, top.getId());
-		
 		assertTrue(gameServ.existById(id));
 
 	}
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testAddGameTFail() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(2);
 		g.setNSprints(2);
 
-		TsscTopic top = new TsscTopic();
-		top.setDefaultGroups(0);
-		top.setDefaultSprints(1);
+		List<TsscGame> list = new ArrayList<TsscGame>();
+	    TsscTopic top = new TsscTopic();
+	    top.setDefaultGroups(3);
+	    top.setDefaultSprints(2);
+	    top.setTsscGames(list);
+	    List<TsscStory> stories = new ArrayList<TsscStory>();
+	    List<TsscTimecontrol> times = new ArrayList<TsscTimecontrol>();
+	    top.setTsscStories(stories);
+	    top.setTsscCronograma(times);
+	    topicServ.addTopic(top);
 			
 		long id = g.getId();
-		long idt = top.getId();
 		
-		when(topicServ.existById(idt)).thenReturn(false);
-		when(topicServ.findTopic(idt)).thenReturn(top);
 		when(gameRepo.existsById(id)).thenReturn(false);
-
 		gameServ.addGameT(g, top.getId());
-		
 		assertFalse(gameServ.existById(id));
 
 	}
-	
-
-
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGameGroupMenor1() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(6);
 		g.setNSprints(1);
 		String name = "Nombre1";
+		gameServ.addGame(g);
 		
 		Optional<TsscGame> op = Optional.of(g);
 
@@ -228,6 +243,7 @@ class TsscGameTestMockito {
 	
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGameNoName() {
 
 		TsscGame g = new TsscGame();
@@ -235,6 +251,7 @@ class TsscGameTestMockito {
 		g.setNSprints(1);
 		g.setName("Nombre");
 		String name = "";
+		gameServ.addGame(g);
 		
 		Optional<TsscGame> op = Optional.of(g);
 		when(gameRepo.existsById(g.getId())).thenReturn(true);
@@ -248,12 +265,14 @@ class TsscGameTestMockito {
 	}
 	
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGameNullName() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(1);
 		g.setNSprints(1);
 		g.setName("Nombre");
+		gameServ.addGame(g);
 		
 		Optional<TsscGame> op = Optional.of(g);
 		when(gameRepo.existsById(g.getId())).thenReturn(true);
@@ -267,12 +286,14 @@ class TsscGameTestMockito {
 	
 
 	@Test
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void testSetGame() {
 
 		TsscGame g = new TsscGame();
 		g.setNGroups(3);
 		g.setNSprints(1);
 		String name = "Nombre";
+		gameServ.addGame(g);
 		
 		Optional<TsscGame> op = Optional.of(g);
 		when(gameRepo.existsById(g.getId())).thenReturn(true);
@@ -280,7 +301,6 @@ class TsscGameTestMockito {
 
 		gameServ.setGame(g, 2, name);
 
-		System.out.println(gameServ.findGame(g.getId()).getNGroups() == 2);
 
 		assertEquals(gameServ.findGame(g.getId()).getNGroups(), 2);
 		assertEquals(gameServ.findGame(g.getId()).getName(), name);

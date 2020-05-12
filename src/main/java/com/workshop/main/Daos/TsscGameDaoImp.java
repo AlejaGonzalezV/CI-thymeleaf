@@ -105,10 +105,25 @@ public class TsscGameDaoImp implements TsscGameDao{
 	@Override
 	public List<TsscGame> findByDateStoryTime(LocalDate date) {
 			
-		String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and (size(t.tsscStories) < 10 or size(t.tsscTimecontrols)>0";
+		String q = "Select a from TsscGame a Where (a.scheduledDate =:date AND (((SELECT Count(b) FROM TsscTimecontrol b WHERE b.tsscGame.id = a.id)=0) OR (SELECT Count(c) FROM TsscStory c WHERE c.TsscGame.id = a.id ) < 10))";
+		//String q = "SELECT t FROM TsscGame t where t.scheduledDate = :date and (size(t.tsscStories) < 10 or size(t.tsscTimecontrols)>0)";
 		Query query = entityManager.createQuery(q);
 		query.setParameter("date", date);
 		return query.getResultList();
+		
+	}
+
+	@Override
+	public boolean existById(long id) {
+		if(entityManager.find(TsscGame.class, id) == null) {
+			
+			return false;
+			
+		}else {
+			
+			return true;
+			
+		}
 		
 	}
 	
